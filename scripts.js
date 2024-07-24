@@ -4,7 +4,6 @@ $(document).ready(function () {
     getQuotes();
   }
   if ($('.latestVideoCarousel').length) {
-    console.log('hi')
     getVideos('latest', 'latest-videos');
   }
 });
@@ -83,7 +82,7 @@ function getVideos(section, videosSelector) {
       data.forEach((video) => {
         console.log(video)
         let htmlFromData = `
-          <div class="card">
+          <div class="card m-3">
             <img
               src="images/thumbnail_4.jpg"
               class="card-img-top"
@@ -152,27 +151,26 @@ function getVideos(section, videosSelector) {
       });
       $('.loader').css({ 'display': 'none' });
       $(`.${section}VideoCarousel`).css({ 'display': 'flex' });
-      // append html to element and then init slick so it grabs then element already loaded
-      $(`.${section}VideoCarousel`).slick({
+      // append html to element and then init slick so slick grabs the element already created
+
+     $(`.${section}VideoCarousel`).slick({
         infinite: true,
         speed: 300,
         slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToScroll: 1,
         responsive: [
           {
             //tablet
             breakpoint: 768,
             settings: {
-              slidesToShow: 2,
-              slidesToScroll: 2
+              slidesToShow: 2
             }
           },
           {
             // phone
             breakpoint: 576,
             settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1
+              slidesToShow: 1
             }
           }
         ]
