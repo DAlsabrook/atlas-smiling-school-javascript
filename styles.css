@@ -212,6 +212,11 @@
   background-color: var(--main-color);
 }
 
+.quotePic {
+  border-radius: 50%;
+  width: 170px;
+}
+
 /* tablet */
 @media screen and (min-width: 575px) {
 
