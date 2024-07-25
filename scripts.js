@@ -81,10 +81,11 @@ function getVideos(section, videosSelector) {
       $(`.${section}VideoCarousel`).css({ 'height': 'auto'})
       data.forEach((video) => {
         console.log(video)
+        let stars = ''
         let htmlFromData = `
           <div class="card m-3">
             <img
-              src="images/thumbnail_4.jpg"
+              src="${video.thumb_url}"
               class="card-img-top"
               alt="Video thumbnail"
             />
@@ -98,21 +99,19 @@ function getVideos(section, videosSelector) {
             </div>
             <div class="card-body">
               <h5 class="card-title font-weight-bold">
-                Diagonal Smile
+                ${video.title}
               </h5>
               <p class="card-text text-muted">
-                Lorem ipsum dolor sit amet, consect adipiscing elit,
-                sed do eiusmod.
+                ${video['sub-title']}
               </p>
               <div class="creator d-flex align-items-center">
                 <img
-                  src="images/profile_1.jpg"
-                  alt="Creator of
-                  Video"
+                  src="${video.author_pic_url}"
+                  alt="Creator of Video"
                   width="30px"
                   class="rounded-circle"
                 />
-                <h6 class="pl-3 m-0 main-color">Phillip Massey</h6>
+                <h6 class="pl-3 m-0 main-color">${video.author}</h6>
               </div>
               <div class="info pt-3 d-flex justify-content-between">
                 <div class="rating">
@@ -142,7 +141,7 @@ function getVideos(section, videosSelector) {
                     width="15px"
                   />
                 </div>
-                <span class="main-color">8 min</span>
+                <span class="main-color">${video.duration}</span>
               </div>
             </div>
           </div>
