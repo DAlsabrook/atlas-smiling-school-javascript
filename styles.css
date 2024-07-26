@@ -40,6 +40,10 @@
   opacity: var(--opacity-value);
 }
 
+.slick-arrow img {
+  height: 50px;
+}
+
 /* Header / Hero Styles */
 
 .header {
@@ -259,27 +263,14 @@
   top: 5%;
 }
 .section .card-title {
-  font-size: 16px;
+  font-size: .5rem;
   line-height: 20px;
   color: var(--background-color);
 }
 
 .section .card-text {
-  font-size: 14px;
+  font-size: .8rem !important;
   line-height: 24px;
-}
-
-.popular .carousel-control-prev,
-.popular .carousel-control-next {
-  width: 60px;
-}
-
-.popular .carousel-control-prev.arrow-left {
-  left: var(--popular-arrows-x);
-}
-
-.popular .carousel-control-next.arrow-right {
-  right: var(--popular-arrows-x);
 }
 
 @media screen and (max-width: 1280px) {
