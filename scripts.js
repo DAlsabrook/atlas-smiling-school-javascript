@@ -9,6 +9,9 @@ $(document).ready(function () {
   if ($('.popularVideoCarousel').length) {
     setTimeout(getVideos('popular', 'popular-tutorials'), 0);
   }
+  if ($('.searchResults').length) {
+    setTimeout(searchVideos());
+  }
 });
 
 // Function to apply custom arrow images to video sections
@@ -84,8 +87,6 @@ function getVideos(section, videosSelector) {
     type: 'GET',
     dataType: 'json',
     success: function (data) {
-      console.log(section + data);
-      $(`.${section}VideoCarousel`).css({ 'height': 'auto'})
       data.forEach((video) => {
         // Handle how many stars each video has
         let stars = `<div class="rating d-flex p-0 col-6 align-items-center">`;
@@ -191,4 +192,94 @@ function getVideos(section, videosSelector) {
 };
 
 // Function to handle filtered videos
-
+function searchVideos(keywordsValue = "", topicValue="all", sortByValue="most_popular") {
+  $(`.searchResults`).css({ 'display': 'none' });
+  $.ajax({
+    url: 'https://smileschool-api.hbtn.info/courses',
+    type: 'GET',
+    dataType: 'json',
+    data: {
+      sort: sortByValue,
+      q: keywordsValue,
+      topic: topicValue,
+    },
+    success: function (data) {
+      console.log(data);
+      $(`.searchResults`).css({ 'height': 'auto' });
+      $(`.searchResults`).prepend(`
+        <div>
+          <p>${data.courses.length} videos</p>
+        </div>
+      `);
+      data.courses.forEach((video) => {
+        console.log(video);
+        let stars = `<div class="rating d-flex p-0 col-6 align-items-center">`;
+        for (let i = 1; i <= 5; i++) {
+          if (i <= video.star) {
+            stars += `
+              <img
+                src = "images/star_on.png"
+                alt = "star on"
+                width = "15px"
+                height = "15px"
+              /> `;
+          } else {
+            stars += `
+              <img
+                src = "images/star_off.png"
+                alt = "star off"
+                width = "15px"
+                height = "15px"
+              /> `;
+          }
+        }
+        stars += `</div>`;
+        let htmlFromData = `
+          <div class="d-card m-2 m-md-1 col-3">
+            <img
+              src="${video.thumb_url}"
+              class="card-img-top"
+              alt="Video thumbnail"
+            />
+            <div class="card-img-overlay m-auto text-center">
+              <img
+                src="images/play.png"
+                alt="Play"
+                width="64px"
+                class="align-self-center play-overlay m-auto"
+              />
+            </div>
+            <div class="col-11 col-md-12 p-1">
+              <h5 class="card-text font-weight-bold">
+                ${video.title}
+              </h5>
+              <p class="card-text text-muted">
+                ${video['sub-title']}
+              </p>
+              <div class="d-flex align-items-center">
+                <img
+                  src="${video.author_pic_url}"
+                  alt="Creator of Video"
+                  width="30px"
+                  class="rounded-circle"
+                />
+                <h6 class="card-text pl-3 m-0 main-color">${video.author}</h6>
+              </div>
+              <div class="info pt-3 d-flex justify-content-between">
+                ${stars}
+                <span class="main-color p-0 col-6 text-right">${video.duration}</span>
+              </div>
+            </div>
+          </div>
+        `;
+        $(`.videoResults`).append(htmlFromData);
+      });
+      // Ajax is done. Hide loader, and show the carousel
+      $('.loader').css({ 'display': 'none' });
+      $(`.searchResults`).css({ 'display': 'flex' });
+    },
+    error: function (xhr, status, error) {
+      console.log('ajax request error: ' + error);
+    }
+  });
+}
