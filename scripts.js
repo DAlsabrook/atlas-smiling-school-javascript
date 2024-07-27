@@ -1,16 +1,44 @@
 $(document).ready(function () {
-  // Check if the page has this carousel
+  // Run the correct functions for each page
   if ($('.quoteCarousel').length) {
-    setTimeout(getQuotes(), 0);
+    // Exists on home and pricing page
+    setTimeout(getQuotes, 0);
   }
   if ($('.latestVideoCarousel').length) {
-    setTimeout(getVideos('latest', 'latest-videos'), 0);
+    // Exists on home
+    setTimeout(() => getVideos('latest', 'latest-videos'), 0);
   }
   if ($('.popularVideoCarousel').length) {
-    setTimeout(getVideos('popular', 'popular-tutorials'), 0);
+    // Exists on home
+    setTimeout(() => getVideos('popular', 'popular-tutorials'), 0);
   }
   if ($('.searchResults').length) {
-    setTimeout(searchVideos());
+    // Exists on courses page
+
+    setTimeout(search(), 0); // Search with default args on dom load for courses page
+
+    // Definition for search function
+    function search() {
+      // This function pulls args from whatever the user has selected
+      const sort = $('.selectedFilterSort').text().replace(' ', '_').toLowerCase();
+      const topic = $('.selectedFilterTopic').text().toLowerCase();
+      const keyword = $('.search-text-area').val().toLowerCase();
+      searchVideos(keyword, topic, sort);
+    }
+
+    // Set event listeners for when the user changes any inputs to run search()
+    $('.dropdown-menu .dropdown-item').on('click', (clickEvent) => {
+      let isTopic = clickEvent.currentTarget.classList.contains('topic');
+      if (isTopic) {
+        $('.selectedFilterTopic').text(clickEvent.currentTarget.text);
+      } else {
+        $('.selectedFilterSort').text(clickEvent.currentTarget.text);
+      }
+      search();
+    })
+    $('.search-text-area').on('keydown', (event) => {
+      if (event.key === 'Enter') search(); // If the user has pressed enter
+    })
   }
 });
 
@@ -193,7 +221,10 @@ function getVideos(section, videosSelector) {
 
 // Function to handle filtered videos
 function searchVideos(keywordsValue = "", topicValue="all", sortByValue="most_popular") {
+  // Hide search results while in ajax and loader is shown
   $(`.searchResults`).css({ 'display': 'none' });
+  // Clear any previous search
+  $(`.videoResults`).html('');
   $.ajax({
     url: 'https://smileschool-api.hbtn.info/courses',
     type: 'GET',
@@ -204,15 +235,14 @@ function searchVideos(keywordsValue = "", topicValue="all", sortByValue="most_po
       topic: topicValue,
     },
     success: function (data) {
-      console.log(data);
       $(`.searchResults`).css({ 'height': 'auto' });
+      $('.videoNumber').remove();
       $(`.searchResults`).prepend(`
-        <div>
+        <div class="videoNumber">
           <p>${data.courses.length} videos</p>
         </div>
       `);
       data.courses.forEach((video) => {
-        console.log(video);
         let stars = `<div class="rating d-flex p-0 col-6 align-items-center">`;
         for (let i = 1; i <= 5; i++) {
           if (i <= video.star) {
@@ -235,7 +265,7 @@ function searchVideos(keywordsValue = "", topicValue="all", sortByValue="most_po
         }
         stars += `</div>`;
         let htmlFromData = `
-          <div class="d-card m-2 m-md-1 col-3">
+          <div class="card m-0 col-12 col-sm-6 col-md-3">
             <img
               src="${video.thumb_url}"
               class="card-img-top"

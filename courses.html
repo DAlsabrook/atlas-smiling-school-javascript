@@ -144,16 +144,17 @@
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  <span>Novice</span>
+                  <span class="selectedFilterTopic">All</span>
                 </a>
 
                 <div
                   class="dropdown-menu mt-0"
                   aria-labelledby="dropdownMenuLink"
                 >
-                  <a class="dropdown-item" href="#">Novice</a>
-                  <a class="dropdown-item" href="#">Intermediate</a>
-                  <a class="dropdown-item" href="#">Expert</a>
+                  <a class="dropdown-item topic" href="#">All</a>
+                  <a class="dropdown-item topic" href="#">Novice</a>
+                  <a class="dropdown-item topic" href="#">Intermediate</a>
+                  <a class="dropdown-item topic" href="#">Expert</a>
                 </div>
               </div>
             </div>
@@ -171,16 +172,16 @@
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  <span>Most Popular</span>
+                  <span class="selectedFilterSort">Most Popular</span>
                 </a>
 
                 <div
                   class="dropdown-menu mt-0"
                   aria-labelledby="dropdownMenuLink"
                 >
-                  <a class="dropdown-item" href="#">Most Popular</a>
-                  <a class="dropdown-item" href="#">Most Recent</a>
-                  <a class="dropdown-item" href="#">Most Viewed</a>
+                  <a class="dropdown-item sortBy" href="#">Most Popular</a>
+                  <a class="dropdown-item sortBy" href="#">Most Recent</a>
+                  <a class="dropdown-item sortBy" href="#">Most Viewed</a>
                 </div>
               </div>
             </div>
@@ -191,7 +192,7 @@
       <section class="section results py-5">
         <div class="loader my-5"></div>
         <div class="container-fluid searchResults d-flex flex-column">
-          <div class="videoResults d-flex col-12 flex-wrap"></div>
+          <div class="videoResults d-flex col-12 flex-wrap p-0"></div>
         </div>
       </section>
     </main>
