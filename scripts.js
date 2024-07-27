@@ -223,6 +223,7 @@ function getVideos(section, videosSelector) {
 function searchVideos(keywordsValue = "", topicValue="all", sortByValue="most_popular") {
   // Hide search results while in ajax and loader is shown
   $(`.searchResults`).css({ 'display': 'none' });
+  $('.loader').css({ 'display': 'block' });
   // Clear any previous search
   $(`.videoResults`).html('');
   $.ajax({
