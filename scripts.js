@@ -266,7 +266,7 @@ function searchVideos(keywordsValue = "", topicValue="all", sortByValue="most_po
         }
         stars += `</div>`;
         let htmlFromData = `
-          <div class="card m-0 col-12 col-sm-6 col-md-3">
+          <div class="card m-0 my-5 col-12 col-sm-6 col-md-3">
             <img
               src="${video.thumb_url}"
               class="card-img-top"
